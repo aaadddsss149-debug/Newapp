@@ -5,7 +5,14 @@
   "type": "module",
   "description": "Reusable open-source Telegram Mini App starter on TON (TON + USDT payments, admin, i18n).",
   "workspaces": ["frontend", "backend"],
-  "engines": {"node": ">=20 <23"},
-  "scripts": {"dev:backend": "npm --workspace backend run dev","dev:frontend": "npm --workspace frontend run dev","build": "npm --workspace frontend run build && npm --workspace backend run build","start": "npm --workspace backend run start"},
+  "engines": {
+    "node": ">=20 <23"
+  },
+  "scripts": {
+    "dev:backend": "npm --workspace backend run dev",
+    "dev:frontend": "npm --workspace frontend run dev",
+    "build": "npm --workspace frontend run build && npm --workspace backend run build",
+    "start": "npm --workspace backend run start"
+  },
   "license": "MIT"
 }

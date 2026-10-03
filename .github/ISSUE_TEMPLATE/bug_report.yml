@@ -1,0 +1,44 @@
+name: Bug report / Баг
+description: Report a problem / Сообщить о проблеме
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened? / Что произошло?
+      description: Describe the bug and steps to reproduce. / Опиши баг и шаги воспроизведения.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / Ожидаемое поведение
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node version / Версия Node
+      placeholder: "node -v (e.g. v22.x)"
+    validations:
+      required: true
+  - type: dropdown
+    id: network
+    attributes:
+      label: TON_NETWORK
+      options:
+        - mainnet
+        - testnet
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS / ОС
+      placeholder: macOS 15 / Ubuntu 24.04 / ...
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Логи
+      description: Paste relevant logs. Redact tokens/addresses! / Вставь логи. Скрой токены/адреса!
+      render: shell

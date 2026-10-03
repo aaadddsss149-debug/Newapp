@@ -1,0 +1,44 @@
+# =====================================================================
+#  nginx vhost for ton-starter.mattpixel.dev (single-origin reverse proxy)
+#  Terminates TLS and forwards everything to the Node backend on :8080,
+#  which serves the built frontend + API + TON Connect manifest.
+#
+#  1) Put this at /etc/nginx/conf.d/ton-starter.conf
+#  2) Get a cert (see README): certbot --nginx -d ton-starter.mattpixel.dev
+#     (certbot rewrites/creates the ssl_* lines and the :80 redirect for you)
+# =====================================================================
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ton-starter.mattpixel.dev;
+    # certbot will add the ACME challenge location + redirect to https.
+    location / { return 301 https://$host$request_uri; }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name ton-starter.mattpixel.dev;
+
+    # --- TLS (managed by certbot / Let's Encrypt) ---
+    ssl_certificate     /etc/letsencrypt/live/ton-starter.mattpixel.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ton-starter.mattpixel.dev/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    # .dev is HSTS-preloaded; enforce https hard.
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+
+    client_max_body_size 1m;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+}

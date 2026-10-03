@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+
+# logs
+*.log
+npm-debug.log*
+
+# secrets & env — NEVER commit real env files
+.env
+.env.*
+!.env.example
+
+# local database
+backend/data/
+data/
+*.sqlite
+*.sqlite-*
+
+# local dev logs (manage.sh dev)
+.logs/
+
+# misc
+.DS_Store
+.idea/
+.vscode/
+.ngrok*

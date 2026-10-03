@@ -1,0 +1,7 @@
+# Automatic HTTPS via Let's Encrypt. Point DNS at this server and open 80/443.
+# Change the hostname if you deploy to a different domain.
+ton-starter.mattpixel.dev {
+	encode gzip
+	reverse_proxy app:8080
+	header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+}

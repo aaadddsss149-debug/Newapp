@@ -1,0 +1,29 @@
+# =====================================================================
+#  systemd unit for the TON Mini App Starter backend (single-origin).
+#  Install:
+#    sudo cp deploy/ton-starter.service /etc/systemd/system/
+#    sudo systemctl daemon-reload
+#    sudo systemctl enable --now ton-starter
+#  Edit User/WorkingDirectory to match your server.
+# =====================================================================
+[Unit]
+Description=TON Mini App Starter (single-origin backend)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/ton-mini-app-starter/backend
+# .env is read from the repo root by the app; no secrets in this unit file.
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=3
+Environment=NODE_ENV=production
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target
